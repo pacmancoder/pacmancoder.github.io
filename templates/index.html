@@ -1,0 +1,16 @@
+{% extends 'clean-blog/templates/index.html' %}
+{% block analytics %}
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-104663138-2"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'UA-104663138-2');
+</script>
+{% endblock analytics %}
+
+{% block copyright %}
+Copyright &copy; Vladislav Nikonov 2020-<script>document.write( new Date().getFullYear() );</script>
+{% endblock copyright %}

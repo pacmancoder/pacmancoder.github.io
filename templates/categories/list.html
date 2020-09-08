@@ -1,0 +1,32 @@
+{% extends "clean-blog/templates/categories/list.html" %}
+
+{% block header %}
+<header class="masthead" style="background-image: url('{{ get_url(path="/img/home-bg.jpg")}}')">
+<div class="overlay">
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto">
+            <div class="site-heading">
+                <h2>Categories</h2>
+                <span class="subheading">Found tags: {{ terms | length }}</span>
+            </div>
+        </div>
+    </div>
+</div>
+</header>
+{% endblock header %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto">
+            <ul>
+                {% for category in terms %}
+                <li><a href="{{ category.permalink }}">{{ category.name }}</a> ({{ category.pages | length }})</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock content %}

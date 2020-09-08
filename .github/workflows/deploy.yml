@@ -1,0 +1,48 @@
+on: [push, pull_request]
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Install rust toolchain
+        uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+          toolchain: stable
+          override: true
+          target: wasm32-unknown-unknown
+          components: rustfmt, clippy
+      - name: Check rustfmt
+        uses: actions-rs/cargo@v1
+        with:
+          command: fmt
+          args: --all -- --check
+      - name: Check clippy
+        uses: actions-rs/cargo@v1
+        with:
+          command: clippy
+          args: --workspace --all-features -- -D warnings
+      - name: Install zola
+        run: |
+          curl -s -L https://github.com/getzola/zola/releases/download/v0.14.1/zola-v0.14.1-x86_64-unknown-linux-gnu.tar.gz \
+            | sudo tar xvzf - -C /usr/local/bin
+      - name: Install wasm-pack
+        run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
+      - name: Build static site
+        run: python3 build.py
+      - name: Install ghp-import
+        if: github.ref == 'refs/heads/code'
+        run: sudo pip install ghp-import
+      - name: Deploy
+        if: github.ref == 'refs/heads/code'
+        run: |
+          git config --global user.name 'GitHub Action'
+          git config --global user.email 'github-action@users.noreply.github.com'
+          ghp-import -c pacmancoder.xyz -n public -b main -m 'Automated deploy commit'
+          git push -fq origin main
+          echo 'Successfully deployed new changes'

@@ -1,0 +1,203 @@
+<div class="card">
+    <h5 class="card-header">FreePDK UART generator</h5>
+    <div class="card-body">
+        <div class="form">
+            <div class="row">
+                <!-- Frequency -->
+                <div class="col form-group">
+                    <label class="form-label"
+                           for="uart-gen-mcu-frequency-control">
+                           MCU clock frequency
+                    </label>
+                    <input type="text"
+                           class="form-control"
+                           id="uart-gen-mcu-frequency-control"
+                           placeholder="Frequency"
+                           list="uart-gen-available-frequencies"
+                           value="8MHz">
+                </div>
+                <datalist id="uart-gen-available-frequencies">
+                    <option value="250KHz"></option>
+                    <option value="500KHz"></option>
+                    <option value="1MHz"></option>
+                    <option value="2MHz"></option>
+                    <option value="4MHz"></option>
+                    <option value="8MHz"></option>
+                </datalist>
+                <!-- Baud rate -->
+                <div class="col form-group">
+                    <label for="uart-gen-baud-control">UART baud rate</label>
+                    <input type="text"
+                           class="form-control"
+                           id="uart-gen-baud-control"
+                           placeholder="Baud"
+                           list="uart-gen-available-bauds"
+                           value="115200">
+                </div>
+                <datalist id="uart-gen-available-bauds">
+                    <option value="110"></option>
+                    <option value="300"></option>
+                    <option value="600"></option>
+                    <option value="1200"></option>
+                    <option value="2400"></option>
+                    <option value="4800"></option>
+                    <option value="9600"></option>
+                    <option value="14400"></option>
+                    <option value="19200"></option>
+                    <option value="38400"></option>
+                    <option value="57600"></option>
+                    <option value="115200"></option>
+                    <option value="128000"></option>
+                    <option value="256000"></option>
+                </datalist>
+            </div>    
+            <!-- TX port/pin -->
+            <div class="row">
+                <div class="col form-group">
+                    <label for="uart-gen-tx-port-control">TX port</label>
+                    <select class="custom-select" id="uart-gen-tx-port-control">
+                        <option>A</option>
+                        <option>B</option>
+                        <option>C</option>
+                    </select>
+                </div>
+                <div class="col form-group">
+                    <label for="uart-gen-tx-pin-control">TX pin</label>
+                    <select class="custom-select" id="uart-gen-tx-pin-control">
+                        <option selected="selected">0</option>
+                        <option>1</option>
+                        <option>2</option>
+                        <option>3</option>
+                        <option>4</option>
+                        <option>5</option>
+                        <option>6</option>
+                        <option>7</option>
+                    </select>
+                </div>
+            </div>
+            <!-- RX port/pin -->
+            <div class="row">
+                <div class="col form-group">
+                    <label for="uart-gen-rx-port-control">RX port</label>
+                    <select class="custom-select" id="uart-gen-rx-port-control">
+                        <option>A</option>
+                        <option>B</option>
+                        <option>C</option>
+                    </select>
+                </div>
+                <div class="col form-group">
+                    <label for="uart-gen-rx-pin-control">RX pin</label>
+                    <select class="custom-select" id="uart-gen-rx-pin-control">
+                        <option>0</option>
+                        <option>1</option>
+                        <option>2</option>
+                        <option selected="selected">3</option>
+                        <option>4</option>
+                        <option>5</option>
+                        <option>6</option>
+                        <option>7</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row">
+                <!-- Invert TX -->
+                <div class="col">
+                    <div class = "custom-control custom-checkbox form-group">
+                        <input type="checkbox"
+                               class="custom-control-input"
+                               id="uart-gen-invert-tx-control">
+                        <label class="custom-control-label"
+                               for="uart-gen-invert-tx-control">
+                               Invert TX signal
+                        </label>
+                    </div>
+                </div>
+                <!-- Invert RX -->
+                <div class="col">
+                    <div class = "custom-control custom-checkbox form-group">
+                        <input type="checkbox"
+                               class="custom-control-input"
+                               id="uart-gen-invert-rx-control">
+                        <label class="custom-control-label"
+                               for="uart-gen-invert-rx-control">
+                               Invert RX signal
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col form-group">
+                    <label for="uart-gen-number-control">UART number</label>
+                    <input type="text"
+                           class="form-control"
+                           id="uart-gen-number-control"
+                           placeholder="UART number"
+                           value="0">
+                </div>
+                <div class="col form-group">
+                    <label for="uart-gen-stop-bits-control">Stop bits</label>
+                    <select class="custom-select" id="uart-gen-stop-bits-control">
+                        <option>1</option>
+                        <option>1.5</option>
+                        <option>2</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col form-group">
+                    <div class="alert alert-danger" id="uart-get-error-alert" hidden>
+                        Error text
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col form-group">
+                    <button type="button"
+                            class="btn btn-block btn-primary"
+                            id='uart-gen-generate-button'
+                            onclick="uartGeneratorApp.on_submit()">
+                        Generate!
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div id="uart-gen-code-block-container" hidden>
+            <div id="uart-gen-code-block">
+                <!-- Will be updated by script below (because of issues with Zola) -->
+            </div>
+            <button type="button"
+                    class="btn btn-block btn-success"
+                    id='uart-gen-copy-button'
+                    onclick="navigator.clipboard.writeText(uartGeneratorApp.get_result())">
+                Copy to clipboard!
+            </button>
+        </div>
+    </div>
+    <div class="card-footer text-muted">
+        Made with Rust & WebAssembly ❤️
+    </div>
+</div>
+<script>
+    // Global variable for WASM app instance
+    let uartGeneratorApp;
+</script>
+
+<script type="module">
+    import init, { UartGeneratorApp } from '/apps/web_freepdk_gen.js'
+
+    async function run_app() {
+        await init();
+        uartGeneratorApp = new UartGeneratorApp();
+    }
+
+    window.onload = function(e) {
+        // Pretty nasty code to avoid processing of pre tags by Zola. "It just works! (tm)"
+        var preTag = "pre";
+        const CODE_BLOCK_ID = "uart-gen-code-block";
+        $("#" + CODE_BLOCK_ID)
+            .removeAttr("id")
+            .html("<" + preTag + " class='pre-scrollable border rounded p-2'><code id = '" + CODE_BLOCK_ID + "'>test\n\nsdfsdf</code></" + preTag + ">")
+
+        run_app();
+    }
+</script>

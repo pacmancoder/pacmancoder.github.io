@@ -1,0 +1,30 @@
+base_url = "https://pacmancoder.xyz"
+title = "pacmancoder.xyz"
+description = "There is no spoon"
+compile_sass = true
+highlight_code = true
+build_search_index = true
+theme = "clean-blog"
+
+taxonomies = [
+    { name = "categories", rss = true, paginate_by = 5 },
+    { name = "tags", rss = true, paginate_by = 5 },
+]
+
+[extra]
+author = "Vladislav Nikonov"
+
+clean_blog_menu = [
+    {url = "$BASE_URL", name = "Posts"},
+    {url = "$BASE_URL/tags", name = "Tags"},
+    {url = "$BASE_URL/categories", name = "Categories"},
+    {url = "$BASE_URL/categories/apps", name = "Apps"},
+    {url = "$BASE_URL/about", name = "About"}
+]
+
+clean_blog_social = [
+    { url = "https://github.com/pacmancoder", icon = "fab fa-github" },
+    { url = "https://www.linkedin.com/in/vladislav-nikonov-4072b8112/", icon = "fab fa-linkedin"},
+    { url = "https://www.instagram.com/pacmancoder/", icon = "fab fa-instagram" },
+    { url = "https://twitter.com/pacmancoder", icon = "fab fa-twitter" }
+]
