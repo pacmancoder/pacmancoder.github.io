@@ -1,22 +1,27 @@
-# The URL the site will be built for
 base_url = "https://pacmancoder.xyz"
-
-# Whether to automatically compile all Sass files in the sass directory
+title = "pacmancoder.xyz"
+description = "Vladislav Nikonov's personal blog"
 compile_sass = true
-
-# Whether to do syntax highlighting
-# Theme can be customised by setting the `highlight_theme` variable to a theme supported by Zola
 highlight_code = true
-
-# Whether to build a search index to be used later on by a JavaScript library
 build_search_index = true
-
 theme = "clean-blog"
 
 taxonomies = [
-    {name = "categories", rss = true, paginate_by=5},
-    {name = "tags", rss = true, paginate_by=5},
+    { name = "categories", rss = true, paginate_by = 5 },
+    { name = "tags", rss = true, paginate_by = 5 },
 ]
 
 [extra]
-# Put all your custom variables here
+author = "Vladislav Nikonov"
+
+clean_blog_menu = [
+    {url = "$BASE_URL", name = "Posts"},
+    {url = "$BASE_URL/about", name = "About"}
+]
+
+clean_blog_social = [
+    { url = "https://github.com/pacmancoder", icon = "fab fa-github" },
+    { url = "https://www.linkedin.com/in/vladislav-nikonov-4072b8112/", icon = "fab fa-linkedin"},
+    { url = "https://www.instagram.com/pacmancoder/", icon = "fab fa-instagram" },
+    { url = "https://twitter.com/pacmancoder", icon = "fab fa-twitter" }
+]
