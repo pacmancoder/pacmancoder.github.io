@@ -8,7 +8,7 @@
 {% endmacro page_list %}
 
 {% macro page_header(page) %}
-<h1>{{ page.title }}</h1>
+<h2>{{ page.title }}</h2>
 <span class="meta">Posted by
     <a href="#">{{config.extra.author}}</a>
     on {{ page.date | date(format="%e %B %Y")}}

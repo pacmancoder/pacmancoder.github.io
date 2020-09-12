@@ -75,3 +75,7 @@ img::-moz-selection {
   color: $white;
   background: transparent;
 }
+
+img {
+  max-width: 80vw;
+}
