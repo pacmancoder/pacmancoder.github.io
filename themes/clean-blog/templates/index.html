@@ -81,6 +81,9 @@
           <div class="post-preview">
             {{ post_macros::page_title(page=page) }}
             <p class="post-summary">{{ page.summary | safe }}</p>
+            <p>
+              <a href="{{ page.permalink }}"><small>Read more...</small></a>
+            </p>
           </div>
           {% endfor %}
         </div>
