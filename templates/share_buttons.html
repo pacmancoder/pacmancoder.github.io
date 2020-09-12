@@ -1,0 +1,36 @@
+<style>
+    ul.share-buttons{
+        list-style: none;
+        padding: 0;
+    }
+
+    ul.share-buttons li{
+        display: inline;
+    }
+
+    ul.share-buttons .sr-only{
+        position: absolute;
+        clip: rect(1px 1px 1px 1px);
+        clip: rect(1px, 1px, 1px, 1px);
+        padding: 0;
+        border: 0;
+        height: 1px;
+        width: 1px;
+        overflow: hidden;
+    }
+</style>
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto">
+            <ul class="share-buttons">
+                <li><a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fpacmancoder.xyz&quote=" target="_blank" title="Share on Facebook" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(document.URL) + '&quote=' + encodeURIComponent(document.URL)); return false;"><i class="fab fa-facebook-square fa-2x" aria-hidden="true"></i><span class="sr-only">Share on Facebook</span></a></li>
+                <li><a href="https://twitter.com/intent/tweet?source=http%3A%2F%2Fpacmancoder.xyz&text=:%20http%3A%2F%2Fpacmancoder.xyz&via=pacmancoder" target="_blank" title="Tweet" onclick="window.open('https://twitter.com/intent/tweet?text=' + encodeURIComponent(document.title) + ':%20' + encodeURIComponent(document.URL)); return false;"><i class="fab fa-twitter-square fa-2x" aria-hidden="true"></i><span class="sr-only">Tweet</span></a></li>
+                <li><a href="http://pinterest.com/pin/create/button/?url=http%3A%2F%2Fpacmancoder.xyz&description=" target="_blank" title="Pin it" onclick="window.open('http://pinterest.com/pin/create/button/?url=' + encodeURIComponent(document.URL) + '&description=' +  encodeURIComponent(document.title)); return false;"><i class="fab fa-pinterest-square fa-2x" aria-hidden="true"></i><span class="sr-only">Pin it</span></a></li>
+                <li><a href="https://getpocket.com/save?url=http%3A%2F%2Fpacmancoder.xyz&title=" target="_blank" title="Add to Pocket"><i class="fab fab fa-get-pocket fa-2x" aria-hidden="true"></i><span class="sr-only">Add to Pocket</span></a></li>
+                <li><a href="http://www.reddit.com/submit?url=http%3A%2F%2Fpacmancoder.xyz&title=" target="_blank" title="Submit to Reddit" onclick="window.open('http://www.reddit.com/submit?url=' + encodeURIComponent(document.URL) + '&title=' +  encodeURIComponent(document.title)); return false;"><i class="fab fa-reddit-square fa-2x" aria-hidden="true"></i><span class="sr-only">Submit to Reddit</span></a></li>
+                <li><a href="http://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2Fpacmancoder.xyz&title=&summary=&source=http%3A%2F%2Fpacmancoder.xyz" target="_blank" title="Share on LinkedIn" onclick="window.open('http://www.linkedin.com/shareArticle?mini=true&url=' + encodeURIComponent(document.URL) + '&title=' +  encodeURIComponent(document.title)); return false;"><i class="fab fa-linkedin fa-2x" aria-hidden="true"></i><span class="sr-only">Share on LinkedIn</span></a></li>
+            </ul>
+        </div>
+    </div>
+</div>
