@@ -4,7 +4,7 @@ date = 2020-09-12
 
 [taxonomies]
 categories = ["How to"]
-tags = ["windows", "drivers"]
+tags = ["Windows", "Drivers"]
 +++
 
 ![Header](0.png)
