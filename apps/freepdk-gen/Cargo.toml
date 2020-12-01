@@ -1,0 +1,13 @@
+[package]
+name = "web-freepdk-gen"
+version = "0.1.0"
+authors = ["Vladislav Nikonov <pacmancoder@gmail.com>"]
+edition = "2018"
+
+[dependencies]
+wasm-bindgen = "0.2"
+console_error_panic_hook = "0.1.6"
+freepdk-gen = { git = "https://github.com/pacmancoder/freepdk-gen.git", rev = "80e4780" }
+
+[package.metadata.wasm-pack.profile.release]
+wasm-opt = ["-Os", "--enable-mutable-globals"]

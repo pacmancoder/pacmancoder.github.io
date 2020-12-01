@@ -1,11 +1,19 @@
-language: minimal
+language: rust
+rust:
+  - stable
 
 before_script:
   # Download and unzip the zola executable
   # Replace the version numbers in the URL by the version you want to use
   - curl -s -L https://github.com/getzola/zola/releases/download/v0.12.0/zola-v0.12.0-x86_64-unknown-linux-gnu.tar.gz | sudo tar xvzf - -C /usr/local/bin
+  # Install wasm-pack
+  - (test -x $HOME/.cargo/bin/cargo-install-update || cargo install cargo-update)
+  - (test -x $HOME/.cargo/bin/cargo-generate || cargo install --vers "^0.2" cargo-generate)
+  - cargo install-update -a
+  - curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh -s -- -f
 
 script:
+  - wasm-pack build
   - zola build
 
 # If you are using a different folder than `public` for the output directory, you will
