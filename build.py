@@ -1,4 +1,5 @@
 import os
+import sys
 from shutil import copyfile
 
 def run(cmd):
@@ -41,6 +42,7 @@ def main():
 
     except RuntimeError as e:
         print("Build failed: " + str(e))
+        sys.exit(1)
 
 
 if __name__ == '__main__':

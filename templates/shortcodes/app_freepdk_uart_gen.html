@@ -152,15 +152,25 @@
             </div>
             <div class="row">
                 <div class="col form-group">
-                    <button type="button" class="btn btn-block btn-primary" id='uart-gen-generate-button'>Generate!</button>
+                    <button type="button"
+                            class="btn btn-block btn-primary"
+                            id='uart-gen-generate-button'
+                            onclick="uartGeneratorApp.on_submit()">
+                        Generate!
+                    </button>
                 </div>
             </div>
         </div>
-        <div class="uart-gen-code-block-container" hidden>
+        <div id="uart-gen-code-block-container" hidden>
             <div id="uart-gen-code-block">
                 <!-- Will be updated by script below (because of issues with Zola) -->
             </div>
-            <button type="button" class="btn btn-block btn-success" id='uart-gen-copy-button'>Copy to clipboard!</button>
+            <button type="button"
+                    class="btn btn-block btn-success"
+                    id='uart-gen-copy-button'
+                    onclick="navigator.clipboard.writeText(uartGeneratorApp.get_result())">
+                Copy to clipboard!
+            </button>
         </div>
     </div>
     <div class="card-footer text-muted">
@@ -168,6 +178,18 @@
     </div>
 </div>
 <script>
+    // Global variable for WASM app instance
+    let uartGeneratorApp;
+</script>
+
+<script type="module">
+    import init, { UartGeneratorApp } from '/apps/web_freepdk_gen.js'
+
+    async function run_app() {
+        await init();
+        uartGeneratorApp = new UartGeneratorApp();
+    }
+
     window.onload = function(e) {
         // Pretty nasty code to avoid processing of pre tags by Zola. "It just works! (tm)"
         var preTag = "pre";
@@ -175,5 +197,7 @@
         $("#" + CODE_BLOCK_ID)
             .removeAttr("id")
             .html("<" + preTag + " class='pre-scrollable border rounded p-2'><code id = '" + CODE_BLOCK_ID + "'>test\n\nsdfsdf</code></" + preTag + ">")
+
+        run_app();
     }
 </script>
