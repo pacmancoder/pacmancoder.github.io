@@ -1,18 +1,14 @@
-mod frontend;
-mod web_frontend;
-
 use wasm_bindgen::prelude::*;
 use wasm_bindgen::JsCast;
 use anyhow::{Error, anyhow};
 use log::{info, error};
 
-use freepdk_gen::{
-    mcu::{Frequency, Port, Pin, StopBits},
-    uart::UartGenerator,
-};
+use crate::frontend::{UartGeneratorFrontend, UartGeneratorErrorEvent, UartGeneratorFrontendError};
+use freepdk_gen::mcu::{StopBits, Pin, Port, Frequency};
 
-#[wasm_bindgen]
-pub struct UartGeneratorApp {
+const HTML_CLASS_IS_INVALID: &str = "is-invalid";
+
+pub struct UartGeneratorWebFrontend {
     mcu_clock_frequency_control: web_sys::HtmlInputElement,
     uart_baud_control: web_sys::HtmlInputElement,
     tx_port_control: web_sys::HtmlSelectElement,
@@ -26,13 +22,9 @@ pub struct UartGeneratorApp {
     code_block_container: web_sys::HtmlDivElement,
     code_block: web_sys::Element,
     error_alert: web_sys::HtmlDivElement,
-
-    result: Option<String>,
 }
 
-#[wasm_bindgen]
-impl UartGeneratorApp {
-    #[wasm_bindgen(constructor)]
+impl UartGeneratorWebFrontend {
     pub fn new() -> Self {
         console_error_panic_hook::set_once();
         wasm_logger::init(wasm_logger::Config::default());
@@ -81,30 +73,11 @@ impl UartGeneratorApp {
             code_block_container,
             code_block,
             error_alert,
-
-            result: None
         }
-    }
-
-    pub fn on_submit(&mut self) {
-        self.submit()
-            .map(|_| {
-                self.error_alert.set_hidden(true);
-            })
-            .unwrap_or_else(|e| {
-                error!("Generation failed: {}", e);
-                self.error_alert.set_hidden(false);
-                self.error_alert.set_inner_text(&e.to_string());
-            })
-    }
-
-    pub fn get_result(&self) -> String {
-        self.result.clone().unwrap_or_default()
     }
 }
 
-impl UartGeneratorApp {
-    fn build_uart_generator(&self) -> Result<UartGenerator, Error> {
+/*
         let frequency: Frequency = self.mcu_clock_frequency_control
             .value().parse().map_err(|e| anyhow!("{}", e))?;
         let baud: u32 = self.uart_baud_control
@@ -141,38 +114,64 @@ impl UartGeneratorApp {
         if rx_inverted {
             builder = builder.invert_rx();
         }
+ */
 
-        let generator = builder.build()?;
-
-        info!("MCU frequency: {}", frequency);
-        info!("UART baud: {}", baud);
-        info!("TX pin: P{}{}", tx_port.char(), tx_pin.num());
-        info!("RX pin: P{}{}", rx_port.char(), rx_pin.num());
-        info!("TX inverted: {}", tx_inverted);
-        info!("RX inverted: {}", rx_inverted);
-        info!("UART number: {}", uart_number);
-        info!("Stop bits: {:?}", stop_bits);
-
-        Ok(generator)
+impl UartGeneratorFrontend for UartGeneratorWebFrontend {
+    fn frequency(&self) -> Result<Frequency, UartGeneratorFrontendError> {
+        self.mcu_clock_frequency_control.value().parse::<Frequency>().map_err(|e| {
+            self.mcu_clock_frequency_control.class_list().add_1(HTML_CLASS_IS_INVALID);
+            UartGeneratorFrontendError(e.to_string())
+        })
     }
 
-    fn submit(&mut self) -> Result<(), Error> {
-        info!("Building UART code generator...");
-        let generator = self.build_uart_generator()?;
+    fn baud(&self) -> Result<u32, UartGeneratorFrontendError> {
+        unimplemented!()
+    }
 
-        info!("Generating uart code...");
-        let generated = generator.generate()?;
+    fn tx_port(&self) -> Result<Port, UartGeneratorFrontendError> {
+        unimplemented!()
+    }
 
-        self.code_block_container.set_hidden(false);
-        self.code_block.set_inner_html(&generated);
-        
-        self.result.replace(generated);
+    fn tx_pin(&self) -> Result<Pin, UartGeneratorFrontendError> {
+        unimplemented!()
+    }
 
-        info!("Uart code generation successfully completed!");
-        Ok(())
+    fn rx_port(&self) -> Result<Port, UartGeneratorFrontendError> {
+        unimplemented!()
+    }
+
+    fn rx_pin(&self) -> Result<Pin, UartGeneratorFrontendError> {
+        unimplemented!()
+    }
+
+    fn tx_inverted(&self) -> Result<bool, UartGeneratorFrontendError> {
+        unimplemented!()
+    }
+
+    fn rx_inverted(&self) -> Result<bool, UartGeneratorFrontendError> {
+        unimplemented!()
+    }
+
+    fn uart_number(&self) -> Result<u8, UartGeneratorFrontendError> {
+        unimplemented!()
+    }
+
+    fn stop_bits(&self) -> Result<StopBits, UartGeneratorFrontendError> {
+        unimplemented!()
+    }
+
+    fn reset(&mut self) -> Result<(), UartGeneratorFrontendError> {
+        unimplemented!()
+    }
+
+    fn show_result(&mut self) -> Result<(), UartGeneratorFrontendError> {
+        unimplemented!()
+    }
+
+    fn show_error(&mut self, error: &UartGeneratorErrorEvent) -> Result<(), UartGeneratorFrontendError> {
+        unimplemented!()
     }
 }
-
 
 fn get_typed_element_by_id<T: JsCast>(document: &web_sys::Document, id: &str) -> T {
     document

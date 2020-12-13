@@ -487,6 +487,7 @@ dependencies = [
  "console_error_panic_hook",
  "freepdk-gen",
  "log",
+ "thiserror",
  "wasm-bindgen",
  "wasm-logger",
  "web-sys",
