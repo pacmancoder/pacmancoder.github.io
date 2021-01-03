@@ -5,15 +5,17 @@ rust:
 before_script:
   # Download and unzip the zola executable
   # Replace the version numbers in the URL by the version you want to use
-  - curl -s -L https://github.com/getzola/zola/releases/download/v0.12.0/zola-v0.12.0-x86_64-unknown-linux-gnu.tar.gz | sudo tar xvzf - -C /usr/local/bin
+  - curl -s -L https://github.com/getzola/zola/releases/download/v0.12.2/zola-v0.12.2-x86_64-unknown-linux-gnu.tar.gz | sudo tar xvzf - -C /usr/local/bin
   # Install wasm-pack
   - (test -x $HOME/.cargo/bin/cargo-install-update || cargo install cargo-update)
-  - (test -x $HOME/.cargo/bin/cargo-generate || cargo install --vers "^0.2" cargo-generate)
+  - (test -x $HOME/.cargo/bin/cargo-generate || cargo install cargo-generate)
   - cargo install-update -a
   - curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh -s -- -f
+  # Install python3 for build script
+  - sudo apt-get -y install python3
 
 script:
-  - wasm-pack build
+  - python3 build.py
   - zola build
 
 # If you are using a different folder than `public` for the output directory, you will
@@ -21,7 +23,6 @@ script:
 after_success: |
   [ $TRAVIS_BRANCH = code ] &&
   [ $TRAVIS_PULL_REQUEST = false ] &&
-  zola build &&
   sudo pip install ghp-import &&
   ghp-import -c pacmancoder.xyz -n public -b main &&
   git push -fq https://${GH_TOKEN}@github.com/${TRAVIS_REPO_SLUG}.git main
