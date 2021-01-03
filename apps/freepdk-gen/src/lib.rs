@@ -9,7 +9,7 @@ use freepdk_gen::{
 };
 
 #[wasm_bindgen]
-struct UartGeneratorApp {
+pub struct UartGeneratorApp {
     mcu_clock_frequency_control: web_sys::HtmlInputElement,
     uart_baud_control: web_sys::HtmlInputElement,
     tx_port_control: web_sys::HtmlSelectElement,
@@ -22,6 +22,7 @@ struct UartGeneratorApp {
     stop_bits_control: web_sys::HtmlSelectElement,
     code_block_container: web_sys::HtmlDivElement,
     code_block: web_sys::Element,
+    alert_container: web_sys::HtmlDivElement,
 
     result: Option<String>,
 }
@@ -60,6 +61,8 @@ impl UartGeneratorApp {
             get_typed_element_by_id(&document, "uart-gen-code-block-container");
         let code_block: web_sys::Element =
             get_typed_element_by_id(&document, "uart-gen-code-block");
+        let alert_container: web_sys::HtmlDivElement =
+            get_typed_element_by_id(&document, "uart-get-error-alert");
 
         Self {
             mcu_clock_frequency_control,
@@ -74,14 +77,18 @@ impl UartGeneratorApp {
             stop_bits_control,
             code_block_container,
             code_block,
+            alert_container,
 
             result: None
         }
     }
 
     pub fn on_submit(&mut self) {
+        self.reset();
+
         self.submit().unwrap_or_else(|e| {
-            // TODO: normal error handling
+            self.reset();
+            self.show_error(&e.to_string());
             error!("Generation failed: {}", e);
         })
     }
@@ -94,25 +101,25 @@ impl UartGeneratorApp {
 impl UartGeneratorApp {
     fn build_uart_generator(&self) -> Result<UartGenerator, Error> {
         let frequency: Frequency = self.mcu_clock_frequency_control
-            .value().parse().map_err(|e| anyhow!("{}", e))?;
+            .value().parse().map_err(|e| anyhow!("Invalid frequency: {}", e))?;
         let baud: u32 = self.uart_baud_control
-            .value().parse().map_err(|e| anyhow!("{}", e))?;
+            .value().parse().map_err(|e| anyhow!("Invalid baud rate: {}", e))?;
         let tx_port: Port = get_option_string_value(&self.tx_port_control)
-            .parse().map_err(|e| anyhow!("{}", e))?;
+            .parse().map_err(|e| anyhow!("Invalid TX port: {}", e))?;
         let tx_pin: Pin = get_option_string_value(&self.tx_pin_control)
-            .parse().map_err(|e| anyhow!("{}", e))?;
+            .parse().map_err(|e| anyhow!("Invalid TX pin: {}", e))?;
         let rx_port: Port = get_option_string_value(&self.rx_port_control)
-            .parse().map_err(|e| anyhow!("{}", e))?;
+            .parse().map_err(|e| anyhow!("Invalid RX port: {}", e))?;
         let rx_pin: Pin = get_option_string_value(&self.rx_pin_control)
-            .parse().map_err(|e| anyhow!("{}", e))?;
-        let tx_inverted =  self.tx_inverted_control
+            .parse().map_err(|e| anyhow!("Invalid RX pin: {}", e))?;
+        let tx_inverted = self.tx_inverted_control
             .checked();
         let rx_inverted = self.rx_inverted_control
             .checked();
         let uart_number: u8 = self.uart_num_control
-            .value().parse().map_err(|e| anyhow!("{}", e))?;
+            .value().parse().map_err(|e| anyhow!("Invalid UART number: {}", e))?;
         let stop_bits: StopBits = get_option_string_value(&self.stop_bits_control)
-            .parse().map_err(|e| anyhow!("{}", e))?;
+            .parse().map_err(|e| anyhow!("Invalid stop bits: {}", e))?;
 
         let mut builder = UartGenerator::builder()
             .frequency(frequency)
@@ -130,7 +137,8 @@ impl UartGeneratorApp {
             builder = builder.invert_rx();
         }
 
-        let generator = builder.build()?;
+        let generator = builder.build()
+            .map_err(|e| anyhow!("Generation failed: {}", e))?;
 
         info!("MCU frequency: {}", frequency);
         info!("UART baud: {}", baud);
@@ -149,15 +157,28 @@ impl UartGeneratorApp {
         let generator = self.build_uart_generator()?;
 
         info!("Generating uart code...");
-        let generated = generator.generate()?;
+        let generated = generator.generate()
+            .map_err(|e| anyhow!("Generation failed: {}", e))?;
 
         self.code_block_container.set_hidden(false);
         self.code_block.set_inner_html(&generated);
-        
+
         self.result.replace(generated);
 
         info!("Uart code generation successfully completed!");
         Ok(())
+    }
+
+    fn show_error(&mut self, error: &str) {
+        self.alert_container.set_hidden(false);
+        self.alert_container.set_inner_text(error);
+    }
+
+    fn reset(&mut self) {
+        self.alert_container.set_hidden(true);
+        self.alert_container.set_inner_text("");
+        self.code_block_container.set_hidden(true);
+        self.code_block.set_inner_html("");
     }
 }
 
