@@ -1,0 +1,2 @@
+User-agent: *
+Sitemap: https://pacmancoder.xyz/sitemap.xml
