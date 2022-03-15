@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-104663138-2"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'UA-104663138-2');
+</script>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>pacmancoder.xyz</title>
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="https://pacmancoder.xyz/css/bootstrap.min.css">
+  <!-- Custom fonts for this template -->
+  <link href=" https://pacmancoder.xyz/css/all.min.css" rel=" stylesheet" type="text/css">
+  <link href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet'
+    type='text/css'>
+  <link
+    href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800'
+    rel='stylesheet' type='text/css'>
+
+  <!-- Custom styles for this template -->
+  <link rel="stylesheet" href="https://pacmancoder.xyz/clean-blog.css">
+
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+    <div class="container">
+      <a class="navbar-brand" href='https:&#x2F;&#x2F;pacmancoder.xyz'>pacmancoder.xyz</a>
+      <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
+        data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false"
+        aria-label="Toggle navigation">
+        Menu
+        <i class="fas fa-bars"></i>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="navbar-nav ml-auto">
+          
+          <li class="nav-item">
+            <a class="nav-link"
+              href="https:&#x2F;&#x2F;pacmancoder.xyz">Posts</a>
+          </li>
+          
+          <li class="nav-item">
+            <a class="nav-link"
+              href="https:&#x2F;&#x2F;pacmancoder.xyz&#x2F;tags">Tags</a>
+          </li>
+          
+          <li class="nav-item">
+            <a class="nav-link"
+              href="https:&#x2F;&#x2F;pacmancoder.xyz&#x2F;categories">Categories</a>
+          </li>
+          
+          <li class="nav-item">
+            <a class="nav-link"
+              href="https:&#x2F;&#x2F;pacmancoder.xyz&#x2F;categories&#x2F;apps">Apps</a>
+          </li>
+          
+          <li class="nav-item">
+            <a class="nav-link"
+              href="https:&#x2F;&#x2F;pacmancoder.xyz&#x2F;about">About</a>
+          </li>
+          
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Page Header -->
+  
+<!-- Page Header -->
+<header class="masthead" style="background-image: url('https://pacmancoder.xyz/img/post-bg.jpg')">
+  <div class="overlay"></div>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-md-10 mx-auto">
+        <div class="post-heading">
+          
+<h2>FreePDK UART Software UART Generator</h2>
+<span class="meta">Posted by
+    <a href="#">Vladislav Nikonov</a>
+    on 12 September 2020
+</span>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+  
+
+
+<!-- Post Content -->
+<article>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-md-10 mx-auto">
+        <p><img src="https://pacmancoder.xyz/freepdk-uart-gen/0.png" alt="Header" /></p>
+<p>This article contains new software UART generation utility for Padauk MCU's. UART code is written mostly in the Assembly, and this should give pretty significant UART baud's while providing quite stable behavior.</p>
+<span id="continue-reading"></span><div class="card">
+    <h5 class="card-header">FreePDK UART generator</h5>
+    <div class="card-body">
+        <div class="form">
+            <div class="row">
+                <!-- Frequency -->
+                <div class="col form-group">
+                    <label class="form-label"
+                           for="uart-gen-mcu-frequency-control">
+                           MCU clock frequency
+                    </label>
+                    <input type="text"
+                           class="form-control"
+                           id="uart-gen-mcu-frequency-control"
+                           placeholder="Frequency"
+                           list="uart-gen-available-frequencies"
+                           value="8MHz">
+                </div>
+                <datalist id="uart-gen-available-frequencies">
+                    <option value="250KHz"></option>
+                    <option value="500KHz"></option>
+                    <option value="1MHz"></option>
+                    <option value="2MHz"></option>
+                    <option value="4MHz"></option>
+                    <option value="8MHz"></option>
+                </datalist>
+                <!-- Baud rate -->
+                <div class="col form-group">
+                    <label for="uart-gen-baud-control">UART baud rate</label>
+                    <input type="text"
+                           class="form-control"
+                           id="uart-gen-baud-control"
+                           placeholder="Baud"
+                           list="uart-gen-available-bauds"
+                           value="115200">
+                </div>
+                <datalist id="uart-gen-available-bauds">
+                    <option value="110"></option>
+                    <option value="300"></option>
+                    <option value="600"></option>
+                    <option value="1200"></option>
+                    <option value="2400"></option>
+                    <option value="4800"></option>
+                    <option value="9600"></option>
+                    <option value="14400"></option>
+                    <option value="19200"></option>
+                    <option value="38400"></option>
+                    <option value="57600"></option>
+                    <option value="115200"></option>
+                    <option value="128000"></option>
+                    <option value="256000"></option>
+                </datalist>
+            </div>    
+            <!-- TX port/pin -->
+            <div class="row">
+                <div class="col form-group">
+                    <label for="uart-gen-tx-port-control">TX port</label>
+                    <select class="custom-select" id="uart-gen-tx-port-control">
+                        <option>A</option>
+                        <option>B</option>
+                        <option>C</option>
+                    </select>
+                </div>
+                <div class="col form-group">
+                    <label for="uart-gen-tx-pin-control">TX pin</label>
+                    <select class="custom-select" id="uart-gen-tx-pin-control">
+                        <option selected="selected">0</option>
+                        <option>1</option>
+                        <option>2</option>
+                        <option>3</option>
+                        <option>4</option>
+                        <option>5</option>
+                        <option>6</option>
+                        <option>7</option>
+                    </select>
+                </div>
+            </div>
+            <!-- RX port/pin -->
+            <div class="row">
+                <div class="col form-group">
+                    <label for="uart-gen-rx-port-control">RX port</label>
+                    <select class="custom-select" id="uart-gen-rx-port-control">
+                        <option>A</option>
+                        <option>B</option>
+                        <option>C</option>
+                    </select>
+                </div>
+                <div class="col form-group">
+                    <label for="uart-gen-rx-pin-control">RX pin</label>
+                    <select class="custom-select" id="uart-gen-rx-pin-control">
+                        <option>0</option>
+                        <option>1</option>
+                        <option>2</option>
+                        <option selected="selected">3</option>
+                        <option>4</option>
+                        <option>5</option>
+                        <option>6</option>
+                        <option>7</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row">
+                <!-- Invert TX -->
+                <div class="col">
+                    <div class = "custom-control custom-checkbox form-group">
+                        <input type="checkbox"
+                               class="custom-control-input"
+                               id="uart-gen-invert-tx-control">
+                        <label class="custom-control-label"
+                               for="uart-gen-invert-tx-control">
+                               Invert TX signal
+                        </label>
+                    </div>
+                </div>
+                <!-- Invert RX -->
+                <div class="col">
+                    <div class = "custom-control custom-checkbox form-group">
+                        <input type="checkbox"
+                               class="custom-control-input"
+                               id="uart-gen-invert-rx-control">
+                        <label class="custom-control-label"
+                               for="uart-gen-invert-rx-control">
+                               Invert RX signal
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col form-group">
+                    <label for="uart-gen-number-control">UART number</label>
+                    <input type="text"
+                           class="form-control"
+                           id="uart-gen-number-control"
+                           placeholder="UART number"
+                           value="0">
+                </div>
+                <div class="col form-group">
+                    <label for="uart-gen-stop-bits-control">Stop bits</label>
+                    <select class="custom-select" id="uart-gen-stop-bits-control">
+                        <option>1</option>
+                        <option>1.5</option>
+                        <option>2</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col form-group">
+                    <div class="alert alert-danger" id="uart-get-error-alert" hidden>
+                        Error text
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col form-group">
+                    <button type="button"
+                            class="btn btn-block btn-primary"
+                            id='uart-gen-generate-button'
+                            onclick="uartGeneratorApp.on_submit()">
+                        Generate!
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div id="uart-gen-code-block-container" hidden>
+            <div id="uart-gen-code-block">
+                <!-- Will be updated by script below (because of issues with Zola) -->
+            </div>
+            <button type="button"
+                    class="btn btn-block btn-success"
+                    id='uart-gen-copy-button'
+                    onclick="navigator.clipboard.writeText(uartGeneratorApp.get_result())">
+                Copy to clipboard!
+            </button>
+        </div>
+    </div>
+    <div class="card-footer text-muted">
+        Made with Rust & WebAssembly ❤️
+    </div>
+</div>
+<script>
+    // Global variable for WASM app instance
+    let uartGeneratorApp;
+</script>
+
+<script type="module">
+    import init, { UartGeneratorApp } from '/apps/web_freepdk_gen.js'
+
+    async function run_app() {
+        await init();
+        uartGeneratorApp = new UartGeneratorApp();
+    }
+
+    window.onload = function(e) {
+        // Pretty nasty code to avoid processing of pre tags by Zola. "It just works! (tm)"
+        var preTag = "pre";
+        const CODE_BLOCK_ID = "uart-gen-code-block";
+        $("#" + CODE_BLOCK_ID)
+            .removeAttr("id")
+            .html("<" + preTag + " class='pre-scrollable border rounded p-2'><code id = '" + CODE_BLOCK_ID + "'>test\n\nsdfsdf</code></" + preTag + ">")
+
+        run_app();
+    }
+</script>
+        
+        <div class="post-tags">
+          <p>Tags:
+            
+            <a href="https://pacmancoder.xyz/tags/padauk/">#Padauk</a>
+            
+            <a href="https://pacmancoder.xyz/tags/hardware/">#Hardware</a>
+            
+          </p>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+</article>
+
+<style>
+    ul.share-buttons{
+        list-style: none;
+        padding: 0;
+    }
+
+    ul.share-buttons li{
+        display: inline;
+    }
+
+    ul.share-buttons .sr-only{
+        position: absolute;
+        clip: rect(1px 1px 1px 1px);
+        clip: rect(1px, 1px, 1px, 1px);
+        padding: 0;
+        border: 0;
+        height: 1px;
+        width: 1px;
+        overflow: hidden;
+    }
+</style>
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto">
+            <ul class="share-buttons">
+                <li><a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fpacmancoder.xyz&quote=" target="_blank" title="Share on Facebook" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(document.URL) + '&quote=' + encodeURIComponent(document.URL)); return false;"><i class="fab fa-facebook-square fa-2x" aria-hidden="true"></i><span class="sr-only">Share on Facebook</span></a></li>
+                <li><a href="https://twitter.com/intent/tweet?source=http%3A%2F%2Fpacmancoder.xyz&text=:%20http%3A%2F%2Fpacmancoder.xyz&via=pacmancoder" target="_blank" title="Tweet" onclick="window.open('https://twitter.com/intent/tweet?text=' + encodeURIComponent(document.title) + ':%20' + encodeURIComponent(document.URL)); return false;"><i class="fab fa-twitter-square fa-2x" aria-hidden="true"></i><span class="sr-only">Tweet</span></a></li>
+                <li><a href="http://pinterest.com/pin/create/button/?url=http%3A%2F%2Fpacmancoder.xyz&description=" target="_blank" title="Pin it" onclick="window.open('http://pinterest.com/pin/create/button/?url=' + encodeURIComponent(document.URL) + '&description=' +  encodeURIComponent(document.title)); return false;"><i class="fab fa-pinterest-square fa-2x" aria-hidden="true"></i><span class="sr-only">Pin it</span></a></li>
+                <li><a href="https://getpocket.com/save?url=http%3A%2F%2Fpacmancoder.xyz&title=" target="_blank" title="Add to Pocket"><i class="fab fab fa-get-pocket fa-2x" aria-hidden="true"></i><span class="sr-only">Add to Pocket</span></a></li>
+                <li><a href="http://www.reddit.com/submit?url=http%3A%2F%2Fpacmancoder.xyz&title=" target="_blank" title="Submit to Reddit" onclick="window.open('http://www.reddit.com/submit?url=' + encodeURIComponent(document.URL) + '&title=' +  encodeURIComponent(document.title)); return false;"><i class="fab fa-reddit-square fa-2x" aria-hidden="true"></i><span class="sr-only">Submit to Reddit</span></a></li>
+                <li><a href="http://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2Fpacmancoder.xyz&title=&summary=&source=http%3A%2F%2Fpacmancoder.xyz" target="_blank" title="Share on LinkedIn" onclick="window.open('http://www.linkedin.com/shareArticle?mini=true&url=' + encodeURIComponent(document.URL) + '&title=' +  encodeURIComponent(document.title)); return false;"><i class="fab fa-linkedin fa-2x" aria-hidden="true"></i><span class="sr-only">Share on LinkedIn</span></a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+
+
+  <hr>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto">
+          <ul class="list-inline text-center">
+            
+            <li class="list-inline-item">
+              <a href="https:&#x2F;&#x2F;github.com&#x2F;pacmancoder">
+                <span class="fa-stack fa-lg">
+                  <i class="fas fa-circle fa-stack-2x"></i>
+                  <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                </span>
+              </a>
+            </li>
+            
+            <li class="list-inline-item">
+              <a href="https:&#x2F;&#x2F;www.linkedin.com&#x2F;in&#x2F;vladislav-nikonov-4072b8112&#x2F;">
+                <span class="fa-stack fa-lg">
+                  <i class="fas fa-circle fa-stack-2x"></i>
+                  <i class="fab fa-linkedin fa-stack-1x fa-inverse"></i>
+                </span>
+              </a>
+            </li>
+            
+            <li class="list-inline-item">
+              <a href="https:&#x2F;&#x2F;www.instagram.com&#x2F;pacmancoder&#x2F;">
+                <span class="fa-stack fa-lg">
+                  <i class="fas fa-circle fa-stack-2x"></i>
+                  <i class="fab fa-instagram fa-stack-1x fa-inverse"></i>
+                </span>
+              </a>
+            </li>
+            
+            <li class="list-inline-item">
+              <a href="https:&#x2F;&#x2F;twitter.com&#x2F;pacmancoder">
+                <span class="fa-stack fa-lg">
+                  <i class="fas fa-circle fa-stack-2x"></i>
+                  <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
+                </span>
+              </a>
+            </li>
+            
+          </ul>
+          <p class="copyright text-muted">
+Copyright &copy; Vladislav Nikonov 2020-<script>document.write( new Date().getFullYear() );</script>
+</p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Bootstrap core JavaScript -->
+  <script src="https://pacmancoder.xyz/js/jquery.min.js"></script>
+  <script src="https://pacmancoder.xyz/js/bootstrap.bundle.min.js"></script>
+
+  <!--Custom scripts for this template-->
+  <script src="https://pacmancoder.xyz/js/clean-blog.min.js"></script>
+
+  <!--- Additional scripts -->
+  
+  
+</body>
+
+</html>
